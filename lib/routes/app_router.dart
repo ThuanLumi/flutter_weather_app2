@@ -14,19 +14,19 @@ class AppRouter {
         );
       case '/main':
         return MaterialPageRoute(
-          builder: (_) => MainWeatherScreen(),
+          builder: (_) => const MainWeatherScreen(),
         );
       case '/current_details':
         return MaterialPageRoute(
-          builder: (_) => CurrentWeatherDetailsScreen(),
+          builder: (_) => const CurrentWeatherDetailsScreen(),
         );
       case '/forecast_details':
         return MaterialPageRoute(
-          builder: (_) => ForecastDetailsScreen(),
+          builder: (_) => const ForecastDetailsScreen(),
         );
       case '/settings':
         return MaterialPageRoute(
-          builder: (_) => SettingsScreen(),
+          builder: (_) => const SettingsScreen(),
         );
       default:
         return MaterialPageRoute(

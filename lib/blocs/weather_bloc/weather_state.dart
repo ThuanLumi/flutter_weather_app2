@@ -25,5 +25,3 @@ class WeatherFetchSuccess extends WeatherState {
 }
 
 class WeatherFetchFailure extends WeatherState {}
-
-class WeatherForecastListItemChooseFinish extends WeatherState {}

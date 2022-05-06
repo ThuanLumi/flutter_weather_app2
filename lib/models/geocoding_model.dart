@@ -18,10 +18,9 @@ class Geocoding {
         country: json[0]["country"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "lat": lat,
-        "lon": lon,
-        "country": country,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "name": name,
+  //       "lat": lat,
+  //       "lon": lon,
+  //     };
 }

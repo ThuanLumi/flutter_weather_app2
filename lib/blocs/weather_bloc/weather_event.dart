@@ -21,12 +21,3 @@ class WeatherCityRefreshed extends WeatherEvent {
   @override
   List<Object?> get props => [city];
 }
-
-class WeatherForecastListItemChosen extends WeatherEvent {
-  final int index;
-
-  const WeatherForecastListItemChosen({required this.index});
-
-  @override
-  List<Object?> get props => [index];
-}

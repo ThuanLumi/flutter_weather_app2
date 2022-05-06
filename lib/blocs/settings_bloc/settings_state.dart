@@ -1,10 +1,10 @@
 part of 'settings_bloc.dart';
 
-abstract class SettingsState extends Equatable {
-  const SettingsState();
-  
-  @override
-  List<Object> get props => [];
-}
+class SettingsState extends Equatable {
+  final TemperatureUnit temperatureUnit;
 
-class SettingsInitial extends SettingsState {}
+  const SettingsState({required this.temperatureUnit});
+
+  @override
+  List<Object> get props => [temperatureUnit];
+}

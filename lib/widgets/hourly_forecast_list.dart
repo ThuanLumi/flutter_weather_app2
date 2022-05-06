@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template_weather_app3/constants/text_style_constants.dart';
+import 'package:flutter_template_weather_app3/constants/enums.dart';
+import 'package:flutter_template_weather_app3/convert_units.dart';
 import 'package:flutter_template_weather_app3/models/one_call_model.dart';
 import 'package:intl/intl.dart';
 
-class HourlyForecastList extends StatelessWidget {
+class HourlyForecastList extends StatelessWidget with ConvertUnits {
   final List<Current> stateHourlyData;
+  final TemperatureUnit stateTemperatureUnit;
 
   const HourlyForecastList({
     Key? key,
     required this.stateHourlyData,
+    required this.stateTemperatureUnit,
   }) : super(key: key);
 
   @override
@@ -29,8 +34,9 @@ class HourlyForecastList extends StatelessWidget {
               itemCount: stateHourlyData.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  width: 200.0,
+                  width: 150.0,
                   child: Card(
+                    color: Colors.grey[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
@@ -44,13 +50,16 @@ class HourlyForecastList extends StatelessWidget {
                             DateTime.fromMillisecondsSinceEpoch(
                                 stateHourlyData[index].dt * 1000),
                           ),
+                          style: textContent,
                         ),
                         Text(
-                          '${stateHourlyData[index].temp.round().toInt().toString()}°C',
+                          formattedTemperature(stateHourlyData[index].temp,
+                              stateTemperatureUnit),
+                          style: textContent,
                         ),
                         Container(
-                          width: 50.0,
-                          height: 50.0,
+                          width: 100.0,
+                          height: 100.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage(
@@ -59,7 +68,10 @@ class HourlyForecastList extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(stateHourlyData[index].weather[0].description),
+                        Text(
+                          '${stateHourlyData[index].weather[0].description[0].toUpperCase()}${stateHourlyData[index].weather[0].description.substring(1)}',
+                          style: textContent,
+                        ),
                       ],
                     ),
                   ),

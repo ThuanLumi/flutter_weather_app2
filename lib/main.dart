@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template_weather_app3/blocs/settings_bloc/settings_bloc.dart';
 import 'package:flutter_template_weather_app3/blocs/weather_bloc/weather_bloc.dart';
 import 'package:flutter_template_weather_app3/routes/app_router.dart';
 
@@ -17,13 +18,13 @@ class MyApp extends StatelessWidget {
         BlocProvider<WeatherBloc>(
           create: (context) => WeatherBloc(),
         ),
+        BlocProvider<SettingsBloc>(
+          create: (context) => SettingsBloc(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Weather App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
         onGenerateRoute: _appRouter.onGenerateRoute,
       ),
     );

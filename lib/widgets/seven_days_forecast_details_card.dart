@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template_weather_app3/constants/text_style_constants.dart';
+import 'package:flutter_template_weather_app3/constants/enums.dart';
+import 'package:flutter_template_weather_app3/convert_units.dart';
 import 'package:flutter_template_weather_app3/models/one_call_model.dart';
 import 'package:intl/intl.dart';
 
-class SevenDaysForeCastDetailsCard extends StatelessWidget {
-  final List<Daily> stateDailyData;
+class SevenDaysForeCastDetailsCard extends StatelessWidget with ConvertUnits {
+  final Daily stateDailyData;
+  final TemperatureUnit stateTemperatureUnit;
 
   const SevenDaysForeCastDetailsCard({
     Key? key,
     required this.stateDailyData,
+    required this.stateTemperatureUnit,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _formatTime = DateFormat.MMMEd();
+    final _formatTime1 = DateFormat.jm();
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -23,6 +29,7 @@ class SevenDaysForeCastDetailsCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Card(
+          color: Colors.grey[400],
           elevation: 2.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
@@ -38,69 +45,245 @@ class SevenDaysForeCastDetailsCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(_formatTime.format(
-                      DateTime.fromMillisecondsSinceEpoch(
-                          stateDailyData[0].dt * 1000),
-                    )),
+                    Text(
+                      _formatTime.format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                            stateDailyData.dt * 1000),
+                      ),
+                      style: textContent,
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    width: 120.0,
-                    height: 120.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/${stateDailyData[0].weather[0].icon}.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Text(
-                      '${stateDailyData[0].temp.day.round().toInt().toString()}°C'),
                   Column(
                     children: [
-                      Text(stateDailyData[0].weather[0].description),
+                      Container(
+                        width: 150.0,
+                        height: 150.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/${stateDailyData.weather[0].icon}.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                       Text(
-                        'Feels like ${stateDailyData[0].feelsLike.day.round().toInt().toString()}°C',
+                        '${stateDailyData.weather[0].description[0].toUpperCase()}${stateDailyData.weather[0].description.substring(1)}',
+                        style: textContent,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'Temperature ${formattedTemperature(
+                          stateDailyData.temp.day,
+                          stateTemperatureUnit,
+                        )}',
+                        style: textContent,
+                      ),
+                      Text(
+                        'Feels like ${formattedTemperature(
+                          stateDailyData.feelsLike.day,
+                          stateTemperatureUnit,
+                        )}',
+                        style: textContent,
+                      ),
+                      Text(
+                        'Precipitation ${(stateDailyData.pop * 100).round().toString()}%',
+                        style: textContent,
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
                 ],
               ),
+              const SizedBox(height: 20.0),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    'Wind Speed\n ${stateDailyData[0].windSpeed.toString()} m/s',
-                    textAlign: TextAlign.center,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'Wind Speed\n ${stateDailyData.windSpeed.toString()} m/s',
+                        style: textContent,
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        'Wind Direction\n ${stateDailyData.windDeg.toString()}°',
+                        style: textContent,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Humidity\n ${stateDailyData[0].humidity.toString()}%',
-                    textAlign: TextAlign.center,
+                  Column(
+                    children: [
+                      Text(
+                        'Humidity\n ${stateDailyData.humidity.toString()}%',
+                        style: textContent,
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        'Pressure\n ${stateDailyData.pressure.toString()} hPa',
+                        style: textContent,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Pressure\n ${stateDailyData[0].pressure.toString()} hPa',
-                    textAlign: TextAlign.center,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'UVI\n ${stateDailyData.uvi.toString()}',
+                        style: textContent,
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        'Clouds\n ${(stateDailyData.clouds).toString()}%',
+                        style: textContent,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ],
               ),
+              const SizedBox(height: 20.0),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    'Wind Direction\n ${stateDailyData[0].windDeg.toString()}°',
-                    textAlign: TextAlign.center,
+                  Column(
+                    children: const [
+                      Text(''),
+                      Text(
+                        'Morning',
+                        style: textContent,
+                      ),
+                      Text(
+                        'Afternoon',
+                        style: textContent,
+                      ),
+                      Text(
+                        'Evening',
+                        style: textContent,
+                      ),
+                      Text(
+                        'Night',
+                        style: textContent,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'UVI\n ${stateDailyData[0].uvi.toString()}',
-                    textAlign: TextAlign.center,
+                  Column(
+                    children: [
+                      const Text(
+                        'Temperature',
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                          stateDailyData.temp.morn,
+                          stateTemperatureUnit,
+                        ),
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                          stateDailyData.temp.day,
+                          stateTemperatureUnit,
+                        ),
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                          stateDailyData.temp.eve,
+                          stateTemperatureUnit,
+                        ),
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                          stateDailyData.temp.night,
+                          stateTemperatureUnit,
+                        ),
+                        style: textContent,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Clouds\n ${(stateDailyData[0].clouds).toString()}%',
-                    textAlign: TextAlign.center,
+                  Column(
+                    children: [
+                      const Text(
+                        'Feelslike',
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                          stateDailyData.feelsLike.morn,
+                          stateTemperatureUnit,
+                        ),
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                          stateDailyData.feelsLike.day,
+                          stateTemperatureUnit,
+                        ),
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                          stateDailyData.feelsLike.eve,
+                          stateTemperatureUnit,
+                        ),
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                          stateDailyData.feelsLike.night,
+                          stateTemperatureUnit,
+                        ),
+                        style: textContent,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      const Text(
+                        'Sunrise',
+                        style: textContent,
+                      ),
+                      Text(
+                        _formatTime1.format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              stateDailyData.sunrise * 1000),
+                        ),
+                        style: textContent,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const Text(
+                        'Sunset',
+                        style: textContent,
+                      ),
+                      Text(
+                        _formatTime1.format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              stateDailyData.sunset * 1000),
+                        ),
+                        style: textContent,
+                      ),
+                    ],
                   ),
                 ],
               ),

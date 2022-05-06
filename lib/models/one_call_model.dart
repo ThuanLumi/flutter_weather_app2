@@ -32,13 +32,13 @@ class OneCall {
         daily: List<Daily>.from(json["daily"].map((x) => Daily.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "lat": lat,
-        "lon": lon,
-        "current": current.toJson(),
-        "hourly": List<dynamic>.from(hourly.map((x) => x.toJson())),
-        "daily": List<dynamic>.from(daily.map((x) => x.toJson())),
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "lat": lat,
+  //       "lon": lon,
+  //       "current": current.toJson(),
+  //       "hourly": List<dynamic>.from(hourly.map((x) => x.toJson())),
+  //       "daily": List<dynamic>.from(daily.map((x) => x.toJson())),
+  //     };
 }
 
 class Current {
@@ -83,19 +83,19 @@ class Current {
             List<Weather>.from(json["weather"].map((x) => Weather.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "dt": dt,
-        "temp": temp,
-        "feels_like": feelsLike,
-        "pressure": pressure,
-        "humidity": humidity,
-        "uvi": uvi,
-        "clouds": clouds,
-        "visibility": visibility,
-        "wind_speed": windSpeed,
-        "wind_deg": windDeg,
-        "weather": List<dynamic>.from(weather.map((x) => x.toJson())),
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "dt": dt,
+  //       "temp": temp,
+  //       "feels_like": feelsLike,
+  //       "pressure": pressure,
+  //       "humidity": humidity,
+  //       "uvi": uvi,
+  //       "clouds": clouds,
+  //       "visibility": visibility,
+  //       "wind_speed": windSpeed,
+  //       "wind_deg": windDeg,
+  //       "weather": List<dynamic>.from(weather.map((x) => x.toJson())),
+  //     };
 }
 
 class Weather {
@@ -115,11 +115,11 @@ class Weather {
         icon: json["icon"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "description": description,
-        "icon": icon,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "id": id,
+  //       "description": description,
+  //       "icon": icon,
+  //     };
 }
 
 class Hourly {
@@ -137,10 +137,10 @@ class Hourly {
         pop: json["hourly"]["pop"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "hourly": List<dynamic>.from(hourly.map((x) => x.toJson())),
-        "pop": pop,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "hourly": List<dynamic>.from(hourly.map((x) => x.toJson())),
+  //       "pop": pop,
+  //     };
 }
 
 class Daily {
@@ -194,22 +194,22 @@ class Daily {
         uvi: json["uvi"].toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
-        "dt": dt,
-        "sunrise": sunrise,
-        "sunset": sunset,
-        "temp": temp.toJson(),
-        "feels_like": feelsLike.toJson(),
-        "pressure": pressure,
-        "humidity": humidity,
-        "wind_speed": windSpeed,
-        "wind_deg": windDeg,
-        "wind_gust": windGust,
-        "weather": List<dynamic>.from(weather.map((x) => x.toJson())),
-        "clouds": clouds,
-        "pop": pop,
-        "uvi": uvi,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "dt": dt,
+  //       "sunrise": sunrise,
+  //       "sunset": sunset,
+  //       "temp": temp.toJson(),
+  //       "feels_like": feelsLike.toJson(),
+  //       "pressure": pressure,
+  //       "humidity": humidity,
+  //       "wind_speed": windSpeed,
+  //       "wind_deg": windDeg,
+  //       "wind_gust": windGust,
+  //       "weather": List<dynamic>.from(weather.map((x) => x.toJson())),
+  //       "clouds": clouds,
+  //       "pop": pop,
+  //       "uvi": uvi,
+  //     };
 }
 
 class Temp {
@@ -238,14 +238,14 @@ class Temp {
         morn: json["morn"].toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
-        "day": day,
-        "min": min,
-        "max": max,
-        "night": night,
-        "eve": eve,
-        "morn": morn,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "day": day,
+  //       "min": min,
+  //       "max": max,
+  //       "night": night,
+  //       "eve": eve,
+  //       "morn": morn,
+  //     };
 }
 
 class FeelsLike {
@@ -268,10 +268,10 @@ class FeelsLike {
         morn: json["morn"].toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
-        "day": day,
-        "night": night,
-        "eve": eve,
-        "morn": morn,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "day": day,
+  //       "night": night,
+  //       "eve": eve,
+  //       "morn": morn,
+  //     };
 }

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template_weather_app3/constants/text_style_constants.dart';
+import 'package:flutter_template_weather_app3/constants/enums.dart';
+import 'package:flutter_template_weather_app3/convert_units.dart';
 import 'package:flutter_template_weather_app3/models/geocoding_model.dart';
 import 'package:flutter_template_weather_app3/models/one_call_model.dart';
 import 'package:intl/intl.dart';
 
-class CurrentWeatherDetailsCard extends StatelessWidget {
+class CurrentWeatherDetailsCard extends StatelessWidget with ConvertUnits {
   final Geocoding stateGeocoding;
   final Current stateCurrent;
+  final TemperatureUnit stateTemperatureUnit;
 
   const CurrentWeatherDetailsCard({
     Key? key,
     required this.stateGeocoding,
     required this.stateCurrent,
+    required this.stateTemperatureUnit,
   }) : super(key: key);
 
   @override
@@ -26,88 +31,120 @@ class CurrentWeatherDetailsCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Card(
+          color: Colors.grey[400],
           elevation: 2.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                padding: const EdgeInsets.only(
-                  left: 20.0,
-                  top: 15.0,
-                  right: 20.0,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(stateGeocoding.name),
-                    Text('Updated ${_formatTime.format(
-                      DateTime.fromMillisecondsSinceEpoch(
-                          stateCurrent.dt * 1000),
-                    )}'),
+                    Text(
+                      '${stateGeocoding.name}, ${stateGeocoding.country}',
+                      style: textContent,
+                    ),
+                    Text(
+                      'Updated ${_formatTime.format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                            stateCurrent.dt * 1000),
+                      )}',
+                      style: textContent,
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    width: 120.0,
-                    height: 120.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/${stateCurrent.weather[0].icon}.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Text('${stateCurrent.temp.round().toInt().toString()}°C'),
                   Column(
                     children: [
-                      Text(stateCurrent.weather[0].description),
+                      Container(
+                        width: 150.0,
+                        height: 150.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/${stateCurrent.weather[0].icon}.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                       Text(
-                        'Feels like ${stateCurrent.feelsLike.round().toInt().toString()}°C',
+                        '${stateCurrent.weather[0].description[0].toUpperCase()}${stateCurrent.weather[0].description.substring(1)}',
+                        style: textContent,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const Text(
+                        'Temperature',
+                        style: textContent,
+                      ),
+                      Text(
+                        formattedTemperature(
+                            stateCurrent.temp, stateTemperatureUnit),
+                        style: textContent,
+                      ),
+                      Text(
+                        'Humidity\n ${stateCurrent.humidity.toString()}%',
+                        textAlign: TextAlign.center,
+                        style: textContent,
                       ),
                     ],
                   ),
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    'Wind Speed\n ${stateCurrent.windSpeed.toString()} m/s',
-                    textAlign: TextAlign.center,
+                  Column(
+                    children: [
+                      Text(
+                        'Wind Speed\n ${stateCurrent.windSpeed.toString()} m/s',
+                        textAlign: TextAlign.center,
+                        style: textContent,
+                      ),
+                      Text(
+                        'Wind Direction\n ${stateCurrent.windDeg.toString()}°',
+                        textAlign: TextAlign.center,
+                        style: textContent,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Humidity\n ${stateCurrent.humidity.toString()}%',
-                    textAlign: TextAlign.center,
+                  Column(
+                    children: [
+                      Text(
+                        'Visibility\n ${(stateCurrent.visibility / 1000).toString()} km',
+                        textAlign: TextAlign.center,
+                        style: textContent,
+                      ),
+                      Text(
+                        'Pressure\n ${stateCurrent.pressure.toString()} hPa',
+                        textAlign: TextAlign.center,
+                        style: textContent,
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Visibility\n ${(stateCurrent.visibility / 1000).toString()} km',
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Pressure\n ${stateCurrent.pressure.toString()} hPa',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Wind Direction\n ${stateCurrent.windDeg.toString()}°',
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'UVI\n ${stateCurrent.uvi.toString()}',
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Clouds\n ${(stateCurrent.clouds).toString()}%',
-                    textAlign: TextAlign.center,
+                  Column(
+                    children: [
+                      Text(
+                        'UVI\n ${stateCurrent.uvi.toString()}',
+                        textAlign: TextAlign.center,
+                        style: textContent,
+                      ),
+                      Text(
+                        'Clouds\n ${(stateCurrent.clouds).toString()}%',
+                        textAlign: TextAlign.center,
+                        style: textContent,
+                      ),
+                    ],
                   ),
                 ],
               ),
