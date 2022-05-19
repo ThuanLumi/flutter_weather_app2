@@ -1,4 +1,4 @@
-package com.example.flutter_template_weather_app3
+package com.thuanlumi.GetWeather
 
 import io.flutter.embedding.android.FlutterActivity
 
